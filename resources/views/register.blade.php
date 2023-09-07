@@ -26,7 +26,7 @@
     </form>
 
     @if (Session::has('success'))
-        <p>{{ Session::get('success') }}</p>
+        <p class="color:green">{{ Session::get('success') }}</p>
     @endif
 
 @endsection
