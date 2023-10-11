@@ -34,10 +34,12 @@
                 <div><input type="text" name="reg_no" placeholder="Enter Registration Number" class="rounded-lg border-2 border-green-300 p-2 pl-4 bg-white w-full h-10"></div>
                 <label for="reg_no">Password</label>
                 <div><input type="password" name="password" placeholder="Enter password" class="rounded-lg border-2 border-green-300 p-2 pl-4 bg-white w-full h-10"></div>
-                <input type="submit" value="Login" class="ml-32 bg-green-900 px-5 py-2 rounded-lg text-slate-100 mt-8 text-center">
+                <input type="submit" @click="setActiveLink(0)" value="Login" class="ml-32 bg-green-900 px-5 py-2 rounded-lg text-slate-100 mt-8 text-center">
               </div>
       
           </form>
+
+          <div class="text-end">You don't have an account? <a href="{{ route('register') }}" class="underline text-blue-700">Register</a></div>
              
   </div>
 
@@ -47,3 +49,12 @@
 
 
 @endsection
+
+<script>
+
+
+  function setActiveLink(index){
+      this.activeLink = index;
+      localStorage.setItem('activeLink', index)
+  }
+</script>

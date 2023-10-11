@@ -27,18 +27,23 @@ class AuthController extends Controller
     public function studentRegister(Request $request)
     {
         $request->validate([
-            'name' => 'string|required|min:2',
+            'fname' => 'string|required|min:2',
+            'lname' => 'string|required|min:2',
             'reg_no' => 'string|required|unique:users',
             'password' => 'string|required|confirmed|min:6'
         ]);
 
         $user = new User;
-        $user->name = $request->name;
+        $user->name = $request->fname;
+        $user->lname = $request->lname;
+        if($request->lname){
+            $user->mname = $request->mname;
+        }
         $user->reg_no = $request->reg_no;
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return back()->with('success', 'Your registrtion has been successful.');
+        return redirect('dashboard')->with('success', 'Your registration has been successful.');
     }
 
     public function loadLogin()
@@ -79,7 +84,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return back()->with('success', 'Your registrtion has been successful.');
+        return back()->with('success', 'Your registration has been successful.');
     }
 
     public function adminDashoard()

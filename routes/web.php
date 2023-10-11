@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome')->name('home');
 });
 Route::get('/register', [AuthController::class, 'loadRegister']);
-Route::post('/register', [AuthController::class, 'studentRegister'])->name('studentRegister');
+Route::post('/register', [AuthController::class, 'studentRegister'])->name('register');
 
 Route::get('/', [AuthController::class, 'loadLogin']);
 Route::post('/login', [AuthController::class, 'userlogin'])->name('userLogin');
@@ -45,7 +45,15 @@ Route::group(['middleware'=>['web', 'checkAdmin']], function(){
 
 
     //Question and Answer Route
-    Route::get('/admin/qna', [AdminController::class, 'qnaDashboard']);
+    Route::get('/admin/qna', [AdminController::class, 'qnaDashboard'])->name('viewQna');
+    Route::get('/admin/qna/{course}', [AdminController::class, 'courseQna'])->name('courseQna');
+    Route::post('/add-question',[AdminController::class, 'addQuestion'])->name('addQuestion');
+    Route::put('/edit-question{question}',[AdminController::class, 'editQuestion'])->name('editQuestion');
+    Route::post('/upload-question',[AdminController::class, 'uploadQuestion'])->name('uploadQuestion');
+    Route::delete('/delete-question/{question}',[AdminController::class, 'deleteQuestion'])->name('deleteQuestion');
+
+    //Students Route
+    Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
 
 
 });

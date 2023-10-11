@@ -28,11 +28,11 @@
                 <label for="reg_no">Last Name</label>
                 <div><input type="text" name="fname" placeholder="Enter First name" class="reg-form" required></div>
 
-                <label for="reg_no">Last Name</label>
+                <label for="reg_no">Middle Name</label>
                 <div><input type="text" name="mname" placeholder="Enter middle name" class="reg-form"></div>
 
-                <label for="reg_no">Registration Number</label>
-                <div><input type="text" name="reg_no" placeholder="Enter Registration Number" class="reg-form" required></div>
+                <label for="reg_no">Email</label>
+                <div><input type="email" name="email" placeholder="Enter Registration Number" class="reg-form" required></div>
 
                 <label for="reg_no">Password</label>
                 <div><input type="password" name="password" placeholder="Enter password" class="reg-form" required></div>

@@ -19,10 +19,10 @@
                     <div class="text-green-600 text-2xl font-bold inline">ALEX EKWUEME FEDERAL UNIVERSITY NDUFU ALIKE IKWO EBONYI STATE</div>
                 </div>
             </div>
-            <div class="ml-8 font-bold text-green-900"><a href=""><img src="images/admin2.png" alt="" class="h-10 w-10 inline mr-3">Admin</a></div>
+            <div class="ml-8 font-bold text-green-900"><a href="{{ route('register') }}"><img src="images/admin2.png" alt="" class="h-10 w-10 inline mr-3">Register</a></div>
         </div>
     </div>
-    <div class="p-12">
+    <div class="py-6">
         @yield('space-work')
     </div>
     

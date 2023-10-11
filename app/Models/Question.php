@@ -13,6 +13,15 @@ class Question extends Model
         'question',
         'course_id',
         'type',
-        'status',
     ];
+
+    public function courses()
+    {
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer:: class, 'question_id', 'id');
+    }
 }

@@ -13,6 +13,10 @@ class Answer extends Model
         'question_id',
         'answer',
         'is_correct',
-        'course_id'
     ];
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'question_id', 'id');
+    }
 }

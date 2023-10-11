@@ -5,3 +5,23 @@
 .modal-form{
     @apply rounded-lg border-2 border-green-300 p-2 pl-4 bg-white text-black w-full h-10 mt-3
 }
+
+.modal-form-textarea{
+    @apply rounded-lg border-2 border-green-300 p-2 pl-4 bg-white text-black w-full h-24 mt-3
+}
+
+.dashboard-active{
+    @apply flex items-center px-4 py-4 my-4 text-white bg-[#1A988A] rounded-md dark:bg-gray-800 dark:text-gray-200 stroke-white
+}
+
+.dashboard-inactive{
+    @apply flex items-center px-4 py-2 my-4 mt-5 text-black transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700 stroke-black
+}
+
+.option-field{
+    @apply rounded-lg border-2 border-green-300 p-1 pl-4 bg-white text-black w-4/5 h-8 mt-3
+}
+
+.reg-form{
+    @apply rounded-lg border-2 border-green-300 p-2 pl-4 bg-white w-full h-10
+}

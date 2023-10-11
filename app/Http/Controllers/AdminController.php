@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\Course;
 use App\Models\Exam;
+use App\Models\Question;
+use App\Models\Answer;
+use App\Models\User;
+
+use App\Imports\QnaImport;
+use Maatwebsite\Excel\Facades\Excel;
+
+use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginate;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
@@ -43,7 +53,7 @@ class AdminController extends Controller
         {
             //Validate
             $request->validate([
-                'course' => 'required', 'unique',
+                'course' => 'required',
                 'course_code' => 'required'
             ]);
 
@@ -56,7 +66,7 @@ class AdminController extends Controller
         }catch(\Exception $e){
             // return response()->json(['sucess'=>false,'msg'=>$e->getMessage()]);
             
-            return redirect('/admin/dashboard')->with('failed', 'Update failed!!');
+            return redirect('/admin/dashboard')->with('failed', $e->getMessage());
            
         };
     }
@@ -102,12 +112,131 @@ class AdminController extends Controller
     public function deleteExam(Exam $exam)
     {
         $exam->delete();
-        return redirect('/admin/exam')->with('success', 'Course removed successfully');;
+        return redirect('/admin/exam')->with('success', 'Course removed successfully');
     }
 
 
     public function qnaDashboard()
     {
-        return view('/admin/qna');
+        $courses = Course::all();
+
+        $questions = Question::all();//->paginate(5);
+        $answers = Answer::all();
+
+        return view('admin/qna', compact('questions'), compact('courses'), compact('answers'));
     }
+
+    public function courseQna(Course $course)
+    {
+        $courseId = $course->id;
+        $course = Course::find($courseId);
+        $questions = $course->questions;
+        $courses = Course::all();
+        return view('admin/qna', compact('questions'), compact('courses'));
+    }
+
+    public function addQuestion(Request $request)
+    {
+        try{
+
+            $questionId = Question::insertGetId([
+                'question' => $request->question,
+                'course_id' => $request->course_id,
+                'type' => $request->type
+            ]);
+
+            foreach($request->answers as $answer){
+
+                $is_correct = 0;
+                if($request->is_correct == $answer){
+                    $is_correct = 1;
+                }
+
+                Answer::insert([
+                    'question_id' => $questionId,
+                    'answer' => $answer,
+                    'is_correct' => $is_correct
+
+                ]);
+            }
+
+            
+            Question::create($request->all());
+
+            return redirect('/admin/qna')->with('success', 'Question added successfully');
+
+        }catch(\Exception $e){
+            return redirect('/admin/qna')->with('failed', $e->getMessage());
+           
+        };
+
+    }
+
+    public function editQuestion(Request $request, Question $question)
+    {
+        try {
+            $request->validate([
+                'question' => 'required',
+                'course_id' => 'required',
+                'type' => 'required',
+            ]);
+
+            $question->update([
+                'question' => $request->question,
+                'type' => $request->type
+            ]);
+            
+            for($i = 0; $i < count($request->answers); $i++){
+                dd($request->has('is_correct'));
+                Answer::where('id',$question->answers[$i]['id'])
+                ->update([
+                    'answer' => $request->answers[$i],
+                    'is_correct' => $request->input('is_correct') === $answer ? 1 : 0,
+                ]);
+            }
+
+            // $question->save();
+            dd($request->answers[0], $question->answers[0]['is_correct'], $request->input('is_correct'));
+            // $question->answers[0]['answer']
+            return redirect()->back()->with('success', 'Question updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('failed', $e->getMessage());
+        };
+    }
+
+    public function uploadQuestion(Request $request)
+    {       
+        try{
+
+            $request->validate([
+                'file' => [
+                    'required',
+                    'mimetypes:application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'mimes:xls,xlsx,xlsm,xlsb,xltm,xltx,xlam,ods',
+                ]
+            ]);
+
+            Excel::import(new QnaImport, $request->file('file'));
+
+            return redirect()->back()->with('success', 'Question uploaded successfully');
+
+        }catch(\Exception $e)
+        {
+            return redirect()->back()->with('failed', $e->getMessage());
+        }
+    }
+
+    public function deleteQuestion(Question $question)
+    {
+        $question->delete();
+        return redirect()->back()->with('success', 'Question removed successfully');
+    }
+
+    //Students Dashboard
+    public function students()
+    {
+        $students = User::where('is_admin', 0)->get();
+        return view('admin.student', compact('students'));
+    }
+
 }
