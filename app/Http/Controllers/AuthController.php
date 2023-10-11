@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    //
+    //Student Registraion
     public function loadRegister()
     {
         if(Auth::user() && Auth::user()->is_admin== 1){
             return redirect('/admin/dashboard');
         }else if(Auth::user() && Auth::user()->is_admin == 0){
             return redirect('dashboard');
+        }else if(Auth::user() && Auth::user()->is_admin == 2){
+            return redirect('cord/dashboard');
         }
         return view('register');
     }
@@ -29,22 +31,80 @@ class AuthController extends Controller
         $request->validate([
             'fname' => 'string|required|min:2',
             'lname' => 'string|required|min:2',
-            'reg_no' => 'string|required|unique:users',
+            'email' => 'string|required|unique:users',
+            'reg_no' => 'string|unique:users',
+            'password' => 'string|required|confirmed|min:6',
+            'role' => 'string|required'
+        ]);
+
+        $user = new User;
+        $user->name = $request->fname;
+        $user->lname = $request->lname;
+        $user->email = $request->email;
+        $user->is_admin = $request->role;
+        if($request->lname){
+            $user->mname = $request->mname;
+        }
+
+        if($request->reg_no){
+            $user->reg_no = $request->reg_no;
+        }
+        
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect('dashboard')->with('success', 'Your registration has been successful.');
+    }
+
+    //Admin Registration
+    public function loadAdminReg()
+    {
+        if(Auth::user() && Auth::user()->is_admin== 1){
+            return redirect('/admin/dashboard');
+        }else if(Auth::user() && Auth::user()->is_admin == 0){
+            return redirect('dashboard');
+        }
+        return view('admin.adminregister');
+    }
+
+    public function adminRegister(Request $request)
+    {
+        $request->validate([
+            'fname' => 'string|required|min:2',
+            'lname' => 'string|required|min:2',
+            'mname' => 'string',
+            'email' => 'string|required|unique:users',
             'password' => 'string|required|confirmed|min:6'
         ]);
 
         $user = new User;
         $user->name = $request->fname;
         $user->lname = $request->lname;
-        if($request->lname){
+        $user->email = $request->email;
+        $user->reg_no = $request->email;
+        $user->is_admin = '1';
+        if($request->mname){
             $user->mname = $request->mname;
         }
-        $user->reg_no = $request->reg_no;
+        
         $user->password = Hash::make($request->password);
         $user->save();
 
         return redirect('dashboard')->with('success', 'Your registration has been successful.');
     }
+
+     //Coordinators Registraion
+     public function loadCordReg()
+     {
+         if(Auth::user() && Auth::user()->is_admin== 1){
+             return redirect('/admin/dashboard');
+         }else if(Auth::user() && Auth::user()->is_admin == 0){
+             return redirect('dashboard');
+         }else if(Auth::user() && Auth::user()->is_admin == 2){
+             return redirect('cord/dashboard');
+         }
+         return view('cord.cordregister');
+     }
 
     public function loadLogin()
     {
@@ -111,4 +171,6 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    
 }

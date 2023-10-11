@@ -47,9 +47,5 @@ class QnaImport implements ToModel
             }
 
         }  
-
-        // return new Question([
-        //     //
-        // ]);
     }
 }

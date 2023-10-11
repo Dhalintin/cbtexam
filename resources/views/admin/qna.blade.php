@@ -7,14 +7,16 @@
         <button @click="isOpen = true; formData = { id: '{{ route('addQuestion') }}'}" class="text-white border bg-[#1A988A] border-green-200 px-4 py-2 rounded-md hover:bg-amber-200 hover:text-black transition inline">
             Add Questions
         </button>
-
+        
         @include('layout/modals/addquestion-modal')
+        
 
         <button @click="uploadModal = true; formData = { id: '{{ route('uploadQuestion') }}'}" class="text-white border bg-[#1A988A] border-green-200 px-4 py-2 rounded-md hover:bg-amber-200 hover:text-black transition inline">
             Upload Question
         </button>
-
+        
         @include('layout/modals/uploadquestion')
+        
     
     </div>
     </div>
@@ -91,10 +93,12 @@
                     @endif
                 </tbody>
             </table>
-            <!-- Modal -->
-            @include('layout/modals/editquestion-modal')
+            @if (count($questions) > 0)
+                <!-- Modal -->
+                @include('layout/modals/editquestion-modal')
 
-            @include('layout/modals/answermodal')
+                @include('layout/modals/answermodal')
+            @endif
             {{-- <div class="p-4 space-evenly">{{ $questions->links() }}</div> --}}
         </div>
 

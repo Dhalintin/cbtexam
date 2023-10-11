@@ -19,8 +19,17 @@ use App\Http\Controllers\AdminController;
 Route::get('/', function () {
     return view('welcome')->name('home');
 });
+
+//Student Registration
 Route::get('/register', [AuthController::class, 'loadRegister']);
 Route::post('/register', [AuthController::class, 'studentRegister'])->name('register');
+
+//Admin Registration
+Route::get('/adminreg', [AuthController::class, 'loadAdminReg']);
+Route::post('/adminRegister', [AuthController::class, 'adminRegister'])->name('adminReg');
+
+//Cordinators Registration
+Route::get('/cordreg', [AuthController::class, 'loadCordReg']);
 
 Route::get('/', [AuthController::class, 'loadLogin']);
 Route::post('/login', [AuthController::class, 'userlogin'])->name('userLogin');
