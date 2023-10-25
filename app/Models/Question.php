@@ -13,7 +13,7 @@ class Question extends Model
         'question',
         'course_id',
         'type',
-    ];
+    ]; 
 
     public function courses()
     {
@@ -23,5 +23,10 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany(Answer:: class, 'question_id', 'id');
+    }
+    
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'course_id', 'id');
     }
 }

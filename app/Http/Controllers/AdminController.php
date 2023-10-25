@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 
+
 class AdminController extends Controller
 {
     //
@@ -83,6 +84,7 @@ class AdminController extends Controller
     {
         $courses = Course::all();
         $exams = Exam::with('courses')->get();
+        // $questions = Course::find($courseId)->exams->find($examId)->questions;
         
         return view('/admin/exam', compact('exams'), compact('courses'));
     }
@@ -91,6 +93,9 @@ class AdminController extends Controller
     {
         try{
 
+            $attempt = 0;
+            $uniqueID = uniqid('exid');
+            
             $request->validate([
                 'exam_name' => 'required',
                 'course_id' => 'required',
@@ -98,8 +103,15 @@ class AdminController extends Controller
                 'time' => 'required',
             ]);
 
+            Exam::insert([
+                'exam_name' => $request->exam_name,
+                'course_id' => $request->course_id,
+                'date' => $request->date,
+                'time' => $request->time,
+                'attempt' => $attempt,
+                'uniqueID' => $uniqueID,
+            ]);
             
-            Exam::create($request->all());
 
             return redirect('/admin/exam')->with('success', 'Exam added successfully');
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Exam;
+use App\Models\ExamRegistration;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Course;
 
@@ -128,11 +130,11 @@ class AuthController extends Controller
         if(Auth::attempt($userCredential)){
 
             if(Auth::user()->is_admin == 1){
-                return redirect('/admin/dashboard');
+                return redirect('/admin/dashboard')->with('user', auth()->user());
             }else if(Auth::user()->is_admin == 2){
-                return redirect('/cord/dashboard');
+                return redirect('/cord/dashboard')->with('user', auth()->user());
             }else{
-                return redirect('dashboard');
+                return redirect('dashboard')->with('user', auth()->user());
             }
         }else{
             return back()->with('error', "Registration Number or Password incorrect!");
@@ -150,13 +152,16 @@ class AuthController extends Controller
     public function adminDashoard()
     {
         $courses = Course::all();
-        return view('admin.dashboard', compact('courses'));
+        $user = session('user');
+
+        return view('admin.dashboard', compact('courses'), compact('user'));
     }
 
     public function loadDashoard()
     {
-       
-        return view('student.dashboard');
+        $exams = Exam::with('courses')->orderBy('date')->get();
+        $regExam = ExamRegistration::with('exams.courses')->get();
+        return view('student.dashboard', compact('exams'), compact('regExam'));
     }
 
     public function cordDashboard()

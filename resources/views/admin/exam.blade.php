@@ -25,6 +25,7 @@
                 <th scope="col">Course</th>
                 <th scope="col">Date</th>
                 <th scope="col">Time</th>
+                <th scope="col">Questions</th>
             </thead>
 
             <tbody>
@@ -36,6 +37,7 @@
                         <td>{{ $exam->courses[0]['course'] }}</td>
                         <td>{{ $exam->date }}</td>
                         <td>{{ $exam->time }}</td>
+                        <td><a href="/admin/qna/{{ $exam->courses['0']['id'] }}">View Questions</a></td>
                             <!-- Button to open the modal -->
                         <td>
                             <button @click="isOpen = true; formData = { id: '{{ route('editCourse',$exam->id) }}', examName: '{{ $exam->exam_name }}', course_code: '{{ $exam->courses['0']['id'] }}', date: '{{ $exam->date }}', date: '{{ $exam->time }}'}">

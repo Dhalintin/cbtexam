@@ -5,8 +5,8 @@
 @endif
 
 
-{{-- <script>
+<script>
     setTimeout(function(){
         $(".notification").text("")
     },3000)
-</script> --}}
+</script>

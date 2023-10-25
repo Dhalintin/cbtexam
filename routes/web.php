@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExamController;
 
 
 /*
@@ -69,6 +70,9 @@ Route::group(['middleware'=>['web', 'checkAdmin']], function(){
 
 Route::group(['middleware'=>['web', 'checkStudent']], function(){
     Route::get('/dashboard', [AuthController::class, 'loadDashoard']);
+    Route::post('/register/{id}', [ExamController::class, 'registerExam'])->name('registerExam');
+    Route::get('/exam/{id}', [ExamController::class, 'loadExam'])->name('exam');
+    Route::post('/exam-submit', [ExamController::class, 'examSubmit'])->name('examSubmit');
 });
 
 Route::group(['middleware'=>['web', 'checkCord']], function(){

@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class ExamRegistration extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'course',
-        'course_code'
+        'user_id',
+        'exam_id'
     ];
 
-    public function questions()
+    public function users()
     {
-        return $this->hasMany(Question::class, 'course_id', 'id');
+        return $this->hasMany(User::class, 'id', 'user_id');
     }
-
     public function exams()
     {
-        return $this->hasMany(Exam::class);
+        return $this->hasMany(Exam::class, 'id', 'exam_id');
     }
 }
