@@ -27,6 +27,14 @@
                           @endforeach
                       </select>
                   </div>
+                  <div>
+                        <label for="score" class="text-lg font-bold">Course</label>
+                        <select type="text" name="score" placeholder="Select Score" class="modal-form" required >
+                            <option value="">Select Score</option>
+                            <option value="70">70</option>
+                            <option value="30">30</option>
+                        </select>
+                  </div>
                     <div>
                       <label for="date" class="text-lg font-bold">Date</label>
                       <input type="date" name="date" class="modal-form" min="@php echo date('Y-m-d') @endphp" required >

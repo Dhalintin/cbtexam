@@ -101,6 +101,7 @@ class AdminController extends Controller
                 'course_id' => 'required',
                 'date' => 'required',
                 'time' => 'required',
+                'score'=>'required'
             ]);
 
             Exam::insert([
@@ -110,6 +111,7 @@ class AdminController extends Controller
                 'time' => $request->time,
                 'attempt' => $attempt,
                 'uniqueID' => $uniqueID,
+                'score' => $request->score
             ]);
             
 

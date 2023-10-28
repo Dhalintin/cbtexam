@@ -38,6 +38,12 @@ class ExamController extends Controller
             return back()->with('failed', 'You cannot register for an exam twice');
         }
     }
+
+    public function destroyExamReg($id)
+    {
+        $userID = Auth()->user()->id;
+        $record = ExamRegistration::where('user_id', $userID)->where('exam_id', $id)->get();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -78,24 +84,43 @@ class ExamController extends Controller
             'exam_id'=> $request->exam_id,
             'user_id'=> Auth::user()->id,
         ]);
-
+        
+        $id =  $request->exam_id;
         $qcount = count($request->q);
+        $markspq = $request->score / $qcount;
+        $mark = 0;
 
         if($qcount > 0){
             for($i = 0; $i < $qcount; $i++){
-                if(!empty($request->input('ans_'.($i+1)))){
-                    ExamAnswer::insert([
-                        'attempt_id' => $attempt_id,
-                        'question_id' => $request->q[$i],
-                        'answer_id' => request()->input('ans_'.($i+1))
-                    ]);
-
+                $answer = Answer::where('id', request()->input('ans_'.($i+1)))->get();
+                if($answer[0]->is_correct == 1){
+                    $mark++;
                 }
+                // if(!empty($request->input('ans_'.($i+1)))){
+                //     ExamAnswer::insert([
+                //         'attempt_id' => $attempt_id,
+                //         'question_id' => $request->q[$i],
+                //         'answer_id' => request()->input('ans_'.($i+1))
+                //     ]);
+
+                // }
                 
             }
         }
 
-        return view('thanks');
+
+        $score = $markspq * $mark;
+        $examreg = ExamRegistration::where(['exam_id'=>$request->exam_id, 'user_id'=>auth()->user()->id])->get();
+
+        $request->validate([
+            'score'=>'required'
+        ]);
+
+        $examreg[0]->score = $score;
+
+        $examreg[0]->save();
+        
+        return view('student.errorpage', ['success'=>true, 'msg'=>'You have completed this exam']);
     }
 
     /**

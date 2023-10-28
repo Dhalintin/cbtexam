@@ -17,17 +17,17 @@
             @php $count = 1; @endphp
                 @foreach ($regExam as $exam)
                     <tr>
-                        {{-- <td class="hidden">{{ $exam->id }}</td> --}}
                         <td>{{ $count++ }}</td>
                         <td>{{ $exam['exams'][0]['exam_name'] }}</td>
                         <td>{{ $exam['exams'][0]['courses'][0]['course'] }}</td>
                         <td>{{ $exam['exams'][0]['date'] }}</td>
                         <td>{{ $exam['exams'][0]['time'] }}</td>
-                        <td class="pt-3">
+                        <td class="pt-1">
                             @if($exam['exams'][0]['attempt_counter'] >= 1)
                                 {{ "Submitted" }}
                             @else
                                 <a href="{{ route('exam', $exam['exams'][0]['uniqueID']) }}" class="bg-green-600 p-2 rounded-lg">Take Exam</a>
+                                <a href="{{ route('deleteExReg', $exam['exams'][0]['id']) }}"></a>
                             @endif
                         </td>
                     </tr>
@@ -40,9 +40,9 @@
         </tbody>
     </table>
     <div x-data="{ isOpen: false}" x-on:keyup.esc="isOpen = false" x-on:clickaway="isOpen = false">
-        <div class="flex justify-evenly">
+        <div class="flex justify-end">
             <!-- Button to open the modal -->
-            <div class="mr-96">
+            <div class="">
                 <button  @click="isOpen = true;" class="float-right mt-10 btn">Register Exams</button>
                 @include('layout\modals\registerexam-modal')
             </div>
@@ -51,4 +51,3 @@
 
 {{-- --}}
 @endsection
-    

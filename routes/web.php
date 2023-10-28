@@ -73,6 +73,9 @@ Route::group(['middleware'=>['web', 'checkStudent']], function(){
     Route::post('/register/{id}', [ExamController::class, 'registerExam'])->name('registerExam');
     Route::get('/exam/{id}', [ExamController::class, 'loadExam'])->name('exam');
     Route::post('/exam-submit', [ExamController::class, 'examSubmit'])->name('examSubmit');
+
+    Route::delete('/delete-examreg/{id}', [ExamController::class, 'destroyExamReg'])->name('deleteExReg');
+
 });
 
 Route::group(['middleware'=>['web', 'checkCord']], function(){

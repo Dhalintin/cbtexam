@@ -16,6 +16,7 @@ class Exam extends Model
         'date',
         'time',
         'attempt',
+        'score'
     ];
 
     protected $appends = ['attempt_counter'];

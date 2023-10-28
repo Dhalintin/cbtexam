@@ -16,6 +16,7 @@
             <form action="{{ route('examSubmit') }}" method="POST" onsubmit="isValid()" id="exam-form">
                 @csrf
                 <input type="hidden" name="exam_id" value="{{ $exam[0]['id'] }}">
+                <input type="text" name="score" value="{{ $exam[0]['score'] }}">
                 @if (count($qna) > 0)
                 @php $option = 'a'; @endphp
                     @foreach ($qna as $data)
