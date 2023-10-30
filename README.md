@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# <p align="center">CBT Exam</p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+## About CBT Exam
+
+<p align="center"> **CBT Exam** is an innovative examination platform that leverages machine learning to deliver a customized and effective assessment experience. It incorporates both objective and subjective examination modes to cater to diverse student needs. This project originated as a final year endeavor and is offered free of charge for educational institutions and individuals seeking an advanced examination solution.This project is a practice laravel project designed as a practice project to learn the basice operations on a site which are Create, Read, Update and Delete shortened to CRUD
 </p>
 
-## About Laravel
+## Getting Started
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [Installation]
+-   [Requirement]
+-   [Setting Up]
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone the repository:
+   You can get the app by cloning it to your local repo using the git clone command
+   See the Github documentation to learn more about cloning repos or enter
 
-## Learning Laravel
+    ```bash
+    git clone https://github.com/Dhalintin/cbtexam.git
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Run migrations:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    php artisan migrate
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Note: As of the documentation's last update, there were no factory data provided with the project. Therefore, users are required to input the necessary data for testing.
 
-## Laravel Sponsors
+## Requirement
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+-   **Laravel**: Version 9.0 or higher
+-   **Livewire**: Version 2.0 or higher
+-   **Tailwind CSS**: Version 3.0 or higher
+-   **AlpineJS**: Version 3.0 or higher
+-   **Composer**
+-   **Node.js**
 
-### Premium Partners
+#### Server:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+-   **CPU**: Quad-core processor or higher
+-   **RAM**: 8 GB or more
+-   **Storage**: 100 GB or more
 
-## Contributing
+#### Database:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   **MySQL**: Version 8.0 or higher
+-   **PostgreSQL**: Version 14 or higher
 
-## Code of Conduct
+#### Web Server:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   **Nginx**: Version 1.20 or higher
+-   **Apache**: Version 2.4 or higher
+-   **PHP**: Version 8.0 or higher
 
-## Security Vulnerabilities
+### Setting Up
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+After Cloning this repo enter into the folder
+
+```shell
+cd crud-product
+```
+
+Run the folloWing command to install all neccesary dependencies
+
+```shell
+composer install
+```
+
+```shell
+npm install
+```
+
+And fund them
+
+```shell
+    npm fund
+```
+
+Create a .env file
+
+```shell
+    touch .env
+```
+
+Copy the content .env.example in the .env
+
+```shell
+    cp .env.example .env
+```
+
+Configure the <code>.env</code> file
+
+Run the migration and seed the database in one step
+
+```shell
+    php artisan migrate:fresh --seed</code>
+```
+
+## Start your server
+
+```shell
+    php artisan serve
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Unlicensed
+
+# CBT EXAM
+
+## Requirements
+
+## Feedback
+
+We welcome your recommendations and feedback on **CBT Exam**. Please feel free to reach out with any suggestions or comments to help us enhance this educational software. Your input is invaluable in our ongoing efforts to improve the system.
