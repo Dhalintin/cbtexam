@@ -109,10 +109,6 @@ Run the migration and seed the database in one step
 
 Unlicensed
 
-# CBT EXAM
-
-## Requirements
-
 ## Feedback
 
 We welcome your recommendations and feedback on **CBT Exam**. Please feel free to reach out with any suggestions or comments to help us enhance this educational software. Your input is invaluable in our ongoing efforts to improve the system.
