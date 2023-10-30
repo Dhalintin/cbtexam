@@ -60,7 +60,7 @@
 After Cloning this repo enter into the folder
 
 ```shell
-cd crud-product
+cd CBT_exams
 ```
 
 Run the folloWing command to install all neccesary dependencies
