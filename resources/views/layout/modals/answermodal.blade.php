@@ -16,16 +16,16 @@
                 </thead>
                 <tbody id="answer" class="showAnswer">
                     <td>
-                        <div x-text="formData.answer1" class="text-white font-semibold text-lg pt-2">A</div>
-                        <div x-text="formData.answer2" class="text-white font-semibold text-lg pt-2">A</div>
-                        <div x-text="formData.answer3" class="text-white font-semibold text-lg pt-2">A</div>
-                        <div x-text="formData.answer4" class="text-white font-semibold text-lg pt-2">A</div>
+                        <div x-show="formData.answer1"  x-text="formData.answer1" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer2"  x-text="formData.answer2" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer3"  x-text="formData.answer3" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer4"  x-text="formData.answer4" class="text-white font-semibold text-lg pt-2"></div>
                     </td>
                     <td>
-                        <div x-text="formData.is_correct1 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
-                        <div x-text="formData.is_correct2 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
-                        <div x-text="formData.is_correct3 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
-                        <div x-text="formData.is_correct4 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer1" x-text="formData.is_correct1 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer2" x-text="formData.is_correct2 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer3" x-text="formData.is_correct3 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
+                        <div x-show="formData.answer4" x-text="formData.is_correct4 === '1' ? 'Correct' : 'Incorrect'" class="text-white font-semibold text-lg pt-2"></div>
                     </td>
                 </tbody>
             </table>       

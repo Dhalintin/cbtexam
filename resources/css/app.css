@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] {
+    display: none;
+}
+
 .modal-form{
     @apply rounded-lg border-2 border-green-300 p-2 pl-4 bg-white text-black w-full h-10 mt-3
 }

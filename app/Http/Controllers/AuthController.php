@@ -36,7 +36,7 @@ class AuthController extends Controller
             'email' => 'string|required|unique:users',
             'reg_no' => 'string|unique:users',
             'password' => 'string|required|confirmed|min:6',
-            'role' => 'string|required'
+            'role' => 'string|required',
         ]);
 
         $user = new User;
@@ -47,6 +47,7 @@ class AuthController extends Controller
         if($request->lname){
             $user->mname = $request->mname;
         }
+        $user->exam_mode = 'objective';
 
         if($request->reg_no){
             $user->reg_no = $request->reg_no;
@@ -160,7 +161,7 @@ class AuthController extends Controller
     public function loadDashoard()
     {
         $exams = Exam::with('courses')->orderBy('date')->get();
-        $regExam = ExamRegistration::with('exams.courses')->get();
+        $regExam = ExamRegistration::where('user_id', Auth()->user()->id)->with('exams.courses')->get();
         return view('student.dashboard', compact('exams'), compact('regExam'));
     }
 

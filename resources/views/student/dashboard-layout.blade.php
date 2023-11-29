@@ -41,21 +41,21 @@ use Illuminate\Support\Facades\URL;
         <div class="hidden flex-col justify-between flex-1 mt-8 lg:flex" side-nav>
 
                 <div class="" x-show="!open">
-                    <div>Name: <span class="font-bold">
+                    <div class="ml-8">
+                        <img src="../.././images/student.png" alt="" class="h-10 w-10 rounded-full">
+                    </div>
+                    <div class="ml-4"><span class="font-bold">
                         {{ auth()->user()->name }}, {{ auth()->user()->lname }}
                     </span> </div>
-                    <div>Reg: No: <span class="font-bold">
+                    <div class="ml-4"><span class="font-bold">
                             {{ auth()->user()->reg_no }}
                         </span>
                     </div>
-                    <div>Attempts <span class="font-bold">
-                       1
-                        </span>
-                    </div>
+                    
                 </div>
 
                 <!-- Log Out-->
-                <a class="dashboard-inactive" @click="setActiveLink(0)" href="{{ route('logout') }}">
+                <a class="dashboard-inactive shadow-sm shadow-gray-700 hover:shadow-lg hover:bg-gray-300" @click="setActiveLink(0)" href="{{ route('logout') }}">
                     <span class="mx-4 font-normal" x-show="!open">Logout</span>
                 </a>
             </nav>

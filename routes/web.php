@@ -59,7 +59,7 @@ Route::group(['middleware'=>['web', 'checkAdmin']], function(){
     Route::get('/admin/qna/{course}', [AdminController::class, 'courseQna'])->name('courseQna');
     Route::post('/add-question',[AdminController::class, 'addQuestion'])->name('addQuestion');
     Route::put('/edit-question{question}',[AdminController::class, 'editQuestion'])->name('editQuestion');
-    Route::post('/upload-question',[AdminController::class, 'uploadQuestion'])->name('uploadQuestion');
+    Route::post('/upload-question{mode}',[AdminController::class, 'uploadQuestion'])->name('uploadQuestion');
     Route::delete('/delete-question/{question}',[AdminController::class, 'deleteQuestion'])->name('deleteQuestion');
 
     //Students Route
@@ -69,12 +69,13 @@ Route::group(['middleware'=>['web', 'checkAdmin']], function(){
 });
 
 Route::group(['middleware'=>['web', 'checkStudent']], function(){
-    Route::get('/dashboard', [AuthController::class, 'loadDashoard']);
+    Route::get('/dashboard', [AuthController::class, 'loadDashoard'])->name('dash');
     Route::post('/register/{id}', [ExamController::class, 'registerExam'])->name('registerExam');
     Route::get('/exam/{id}', [ExamController::class, 'loadExam'])->name('exam');
-    Route::post('/exam-submit', [ExamController::class, 'examSubmit'])->name('examSubmit');
+    Route::post('/exam-submit/{mode}', [ExamController::class, 'examSubmit'])->name('examSubmit');
 
-    Route::delete('/delete-examreg/{id}', [ExamController::class, 'destroyExamReg'])->name('deleteExReg');
+    Route::delete('/delete-examreg/{id}', [ExamController::class, 'destroy'])->name('deleteExReg');
+    
 
 });
 

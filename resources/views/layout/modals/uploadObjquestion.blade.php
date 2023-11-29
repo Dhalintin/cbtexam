@@ -1,14 +1,14 @@
-<div x-show="uploadSubModal" class="fixed inset-0 flex items-center justify-center z-50">
-    <div class="modal-overlay absolute w-full h-full bg-[#1A988A] opacity-50" x-on:click="uploadSubModal = false"></div>
+<div x-show="uploadModal" class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="modal-overlay absolute w-full h-full bg-[#1A988A] opacity-50" x-on:click="uploadModal = false"></div>
 
     <div class="modal-container bg-[#1A988A] w-11/12 md:max-w-md mx-auto shadow-lg z-50 overflow-y-auto text-[#1A988A] rounded-lg">
         <!-- Modal content -->
         <div class="modal-content py-4 text-left px-6">
             <div class="flex justify-end">
-                <button class="font-bold text-red-600" @click="uploadSubModal = false">X</button>
+                <button class="font-bold text-red-600" @click="uploadModal = false">X</button>
             </div>
-            <div class="text-2xl font-bold mb-4 text-center text-white">Upload Subjective Questions</div>
-                <form id="importQna"  action="{{ Route('uploadQuestion', 1) }}" method="POST" enctype="multipart/form-data" >
+            <div class="text-2xl font-bold mb-4 text-center text-white">Upload Questions</div>
+                <form id="importQna"  action="{{ Route('uploadQuestion', 0) }}" method="POST" enctype="multipart/form-data" >
                     @csrf
                     <div class="bg-white rounded-lg pt-5 px-10 pb-8 pr-8 mr-3"> 
                         <p class="my-2">Upload sheet of courses</p>
@@ -31,11 +31,10 @@
                         <button type="submit" x-on:click="isOpen = false" class="border border-white text-white rounded-lg p-3 bg-[#1A988A] px-5 flex mb-5 mt-3 left-full right-0 float-right">Upload</button>
                     </div>
                 </form>
-            </div> 
-            
-            <!-- End of Form -->             
+            </div>             
         </div>
     </div>
 </div>
+
 
 

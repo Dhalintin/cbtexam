@@ -10,6 +10,7 @@ use App\Models\Answer;
 use App\Models\User;
 
 use App\Imports\QnaImport;
+use App\Imports\SubjectiveImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
@@ -134,17 +135,14 @@ class AdminController extends Controller
     {
         $courses = Course::all();
 
-        $questions = Question::all();//->paginate(5);
-        $answers = Answer::all();
+        $questions = Question::with('answers')->paginate(10);
 
-        return view('admin/qna', compact('questions'), compact('courses'), compact('answers'));
+        return view('admin/qna', compact('questions'), compact('courses'));
     }
 
     public function courseQna(Course $course)
     {
-        $courseId = $course->id;
-        $course = Course::find($courseId);
-        $questions = $course->questions;
+        $questions = Question::where('course_id', $course->id)->with('answers')->paginate(10);
         $courses = Course::all();
         return view('admin/qna', compact('questions'), compact('courses'));
     }
@@ -218,7 +216,7 @@ class AdminController extends Controller
         };
     }
 
-    public function uploadQuestion(Request $request)
+    public function uploadQuestion(Request $request, $mode)
     {       
         try{
 
@@ -230,7 +228,13 @@ class AdminController extends Controller
                 ]
             ]);
 
-            Excel::import(new QnaImport, $request->file('file'));
+            if($mode == 0){
+                Excel::import(new QnaImport, $request->file('file'));
+            }else{
+                Excel::import(new SubjectiveImport, $request->file('file'));
+            }
+
+            
 
             return redirect()->back()->with('success', 'Question uploaded successfully');
 

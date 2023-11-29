@@ -39,10 +39,20 @@ class ExamController extends Controller
         }
     }
 
-    public function destroyExamReg($id)
-    {
-        $userID = Auth()->user()->id;
-        $record = ExamRegistration::where('user_id', $userID)->where('exam_id', $id)->get();
+    public function destroy($id)
+    {   
+        try
+        {
+            $userID = Auth()->user()->id;
+            $record = ExamRegistration::where('exam_id', $id)->where('user_id', $userID)->get();
+            $rec = ExamRegistration::findOrFail($record[0]['id']);
+            $rec->delete();
+            return back()->with('success', 'Exam deleted successfully');
+        }catch (Exception $e)
+        {
+            return view('dashboard')->with('failed', $e->getMessage());
+        }
+        
     }
     /**
      * Display a listing of the resource.
@@ -50,18 +60,29 @@ class ExamController extends Controller
     public function loadExam($id)
     {
        $exam = Exam::where('uniqueID', $id)->get();
+       $examType = Auth()->user()->exam_mode;
         if(count($exam) > 0){
             $attemptCount = ExamAttempt::where(['exam_id'=>$exam[0]['id'], 'user_id'=>auth()->user()->id])->count();
             if( $attemptCount >= 1){
                 return view('student.errorpage', ['success'=>false, 'msg'=>'You have taken this exam already']);
             }
             else if($exam[0]['date'] == date('Y-m-d')){
-                $qna = Question::where('course_id', $exam[0]['course_id'])->with('answers')->inRandomOrder()->take(5)->get();
-                if(count($qna) > 0){
-                    return view('student.exam', ['success'=>true, 'exam'=>$exam, 'qna'=>$qna]);
+                if($examType === 'objective'){
+                    $qna = Question::where('course_id', $exam[0]['course_id'])->where('type', 'objective')->with('answers')->inRandomOrder()->take(5)->get();
+                    if(count($qna) > 0){
+                        return view('student.exam', ['success'=>true, 'exam'=>$exam, 'qna'=>$qna, 'type'=>'objective']);
+                    }else{
+                        return view('student.errorpage', ['success'=>false, 'msg'=>'This exam is not available! It will be holding on '.$exam[0]['date'], 'exam'=>$exam]);
+                    }
                 }else{
-                    return view('student.errorpage', ['success'=>false, 'msg'=>'This exam is not available! It will be holding on '.$exam[0]['date'], 'exam'=>$exam]);
+                    $qna = Question::where('course_id', $exam[0]['course_id'])->where('type', 'subjective')->with('answers')->inRandomOrder()->take(5)->get();
+                    if(count($qna) > 0){
+                        return view('student.exam', ['success'=>true, 'exam'=>$exam, 'qna'=>$qna, 'type'=>'subjective']);
+                    }else{
+                        return view('student.errorpage', ['success'=>false, 'msg'=>'This exam is not available! It will be holding on '.$exam[0]['date'], 'exam'=>$exam]);
+                    }
                 }
+                
                 
             }else if($exam[0]['date'] > date('Y-m-d')){
                 return view('student.errorpage', ['success'=>false, 'msg'=>'This exam will start on '.$exam[0]['date'], 'exam'=>$exam]);
@@ -77,9 +98,8 @@ class ExamController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function examSubmit(Request $request)
+    public function examSubmit(Request $request, $mode)
     {
-
         $attempt_id = ExamAttempt::insertGetId([
             'exam_id'=> $request->exam_id,
             'user_id'=> Auth::user()->id,
@@ -87,30 +107,68 @@ class ExamController extends Controller
         
         $id =  $request->exam_id;
         $qcount = count($request->q);
-        $markspq = $request->score / $qcount;
+        $markspq = 3;
         $mark = 0;
-
-        if($qcount > 0){
-            for($i = 0; $i < $qcount; $i++){
-                $answer = Answer::where('id', request()->input('ans_'.($i+1)))->get();
-                if($answer[0]->is_correct == 1){
-                    $mark++;
+        if($mode == 'objective'){
+            if($qcount > 0){
+                for($i = 0; $i < $qcount; $i++){
+                    $answer = Answer::where('id', request()->input('ans_'.($i+1)))->get();
+                    if($answer[0]->is_correct == 1){
+                        $mark++;
+                    }
+                    if(!empty($request->input('ans_'.($i+1)))){
+                        ExamAnswer::insert([
+                            'attempt_id' => $attempt_id,
+                            'question_id' => $request->q[$i],
+                            'answer_id' => request()->input('ans_'.($i+1))
+                        ]);
+    
+                    }
+                    
                 }
-                // if(!empty($request->input('ans_'.($i+1)))){
-                //     ExamAnswer::insert([
-                //         'attempt_id' => $attempt_id,
-                //         'question_id' => $request->q[$i],
-                //         'answer_id' => request()->input('ans_'.($i+1))
-                //     ]);
-
-                // }
-                
             }
-        }
+        }else{
+            if($qcount > 0){
+                for($i = 0; $i < $qcount; $i++){
+                    $question = Question::where('id', $request->q[$i])->with('answers')->get();
+                    $answer = 'answer_'.$i+1;
+                    $answerUser = strtolower($request->$answer);
+                    $answerCorrect = strtolower($question[0]['answers'][0]['answer']);
 
+                    $answerUser = preg_replace('/\s+/', '', $answerUser);
+                    $answerCorrect = preg_replace('/\s+/', '', $answerCorrect);
+                    if($answerUser === $answerCorrect){
+                        $mark++;
+                    }else{
+                        $string1Length = strlen($answerUser);
+                        $string2Length = strlen($answerCorrect);
+
+                        $length = ($string1Length < $string2Length) ? $string1Length : $string2Length;
+
+                        $matchingCharacters = 0;
+                        for ($i = 0; $i < $length; $i++) {
+                            if ($answerUser[$i] === $answerCorrect[$i]) {
+                                $matchingCharacters++;
+                            }
+                        }
+
+                        $similarity = $matchingCharacters / max($string1Length, $string2Length);
+
+                        if($similarity >= 0.60){
+                            $mark++;
+                        }
+                    }
+                }
+
+            }
+
+        }
 
         $score = $markspq * $mark;
         $examreg = ExamRegistration::where(['exam_id'=>$request->exam_id, 'user_id'=>auth()->user()->id])->get();
+        $mark = ExamAttempt::where('id', $attempt_id)->get();
+        $mark[0]->marks = $score;
+        $mark[0]->save();
 
         $request->validate([
             'score'=>'required'
@@ -123,43 +181,4 @@ class ExamController extends Controller
         return view('student.errorpage', ['success'=>true, 'msg'=>'You have completed this exam']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

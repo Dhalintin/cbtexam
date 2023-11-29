@@ -44,16 +44,17 @@
                                 </button>
                                 </td>
                                 <td>
-                                    <a href="/admin/qna/{{ $course->id }}" @click = setActiveLink(2)>
+                                    {{ $course->id }}
+                                    <a href="{{ Route('courseQna', $course->id)  }}" @click = setActiveLink(2)>
                                         View Questions
                                     </a>
                                 </td>
                                 <td>
-                                    {{-- <form action="{{ route('deleteCourse',$course->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('deleteCourse',$course->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button id="{{ $course->id }}" type="submit" onclick="return confirm('Are you sure you want to delete? This process cannot be undone')" class="inline bg-[#FF0000] p-2 rounded-lg">Delete</button>
-                                    </form>     --}}
+                                    </form>    
                                 </td>
                             </tr>
                         @endforeach

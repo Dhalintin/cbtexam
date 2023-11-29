@@ -22,12 +22,16 @@
                         <td>{{ $exam['exams'][0]['courses'][0]['course'] }}</td>
                         <td>{{ $exam['exams'][0]['date'] }}</td>
                         <td>{{ $exam['exams'][0]['time'] }}</td>
-                        <td class="pt-1">
+                        <td class="pt-1 mb-5">
                             @if($exam['exams'][0]['attempt_counter'] >= 1)
                                 {{ "Submitted" }}
                             @else
-                                <a href="{{ route('exam', $exam['exams'][0]['uniqueID']) }}" class="bg-green-600 p-2 rounded-lg">Take Exam</a>
-                                <a href="{{ route('deleteExReg', $exam['exams'][0]['id']) }}"></a>
+                                <form action="{{ Route('deleteExReg', $exam['exams'][0]['id']) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="p-1 mb-5 text-[#00cc00] font-bold rounded-lg inline mr-2"><a href="{{ route('exam', $exam['exams'][0]['uniqueID']) }}" >Take Exam</a></div>
+                                    <button type="submit" class="inline text-[#ff0000] font-bold">Delete</button>
+                                </form>
                             @endif
                         </td>
                     </tr>

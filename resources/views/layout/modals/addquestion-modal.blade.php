@@ -49,7 +49,6 @@
 
 <script>
 $(document).ready(function(){
-
     $("#addQna").submit(function(e){
             e.preventDefault();
 
@@ -101,9 +100,7 @@ $(document).ready(function(){
 
 
     $("#addButton").click(function(e){
-
         e.preventDefault();
-       
        if($(".options").length >= 4){
            (".error").text("You cannot add more than 4 options");
            setTimeout(function(){
@@ -118,8 +115,7 @@ $(document).ready(function(){
                            </div>
                            <button class="removeButton inline text-white font-bold bg-red-500 p-1 py-1 rounded-lg">Delete</button>
                        </div>
-                       `
-
+                       `;
                $("#option").append(html);
        }
        
